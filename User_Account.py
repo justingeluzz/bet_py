@@ -35,42 +35,45 @@ class User_Account:
 account_name = input("Hello, What is your name? : ")
 account_balance = int(input(f"\nHello, {account_name}. How much would you like to deposit? : "))
     
-user_justin = User_Account(account_name, account_balance)
+player = User_Account(account_name, account_balance)
+
+
 
 def Bet():
     bet_status = True
-
+    
     while bet_status:
-        bot_choice_bet = random.randint(1,5)
+        bot_choice_bet = random.randint(1,2)
 
-        if user_justin.balance <= 0:
+        if player.balance <= 0:
 
             print("\n You have no balance please deposit first.")
             main()
         
         else:
             player_amount_bet = int(input("Please enter how much you want to bet? : "))
-            player_choice_bet = input("Plese enter your number from 1 - 5 : ")
+            player_choice_bet = int(input("Plese enter your number from 1 - 2 : "))
 
             
             if player_choice_bet == bot_choice_bet:
-                user_justin.balance = user_justin.balance + player_amount_bet
-                print(f"\nYou Won. Your Balance is now ${user_justin.balance}\n")
+                player_games_won = player_games_won + 1
+                player.balance = player.balance + player_amount_bet
+                print(f"\nYou Won. Your Balance is now ${player.balance}\n")
                 ask_again()
                 
             else:
-                user_justin.balance = user_justin.balance - player_amount_bet
-                print(f"\nYou Lose. Your Balance is now ${user_justin.balance}\n")
+                bot_games_won = bot_games_won + 1
+                player.balance = player.balance - player_amount_bet
+                print(f"\nYou Lose. Your Balance is now ${player.balance}\n")
                 ask_again()
 
-    
 def ask_again():
     player_ask_again = input("\nDo you want to play again?\n 1. Yes \n 2. No \n ")
 
     if player_ask_again == "1":
 
-        if user_justin.balance <= 0:
-                print(f"\nSorry you only have: ${user_justin.balance} balance left. ")
+        if player.balance <= 0:
+                print(f"\nSorry you only have: ${player.balance} balance left. ")
                 main()
         else:
             Bet()
@@ -80,26 +83,29 @@ def ask_again():
 
 def main():
     while True:
-        action_ask_user = input(f"\n Hello. {account_name}. What action do you want? \n 1. Check Balance \n 2. Deposit \n 3. Bet \n 4. Withdraw \n 5. Quit \n \n")
+        action_ask_user = input(f"\n Hello. {account_name}. What action do you want? \n 1. Check Balance \n 2. Deposit \n 3. Bet \n 4. Check Winrate \n 5. Withdraw \n \n")
 
         if action_ask_user == "1":
-            user_justin.check_balance()
+            player.check_balance()
 
         elif action_ask_user == "2":
             player_ask_deposit_amount = int(input("\nHow much do you want to deposit? : "))
-            user_justin.balance = user_justin.balance + player_ask_deposit_amount
-            print(f"\nYour balance is now: ${user_justin.balance}.")
+            player.balance = player.balance + player_ask_deposit_amount
+            print(f"\nYour balance is now: ${player.balance}.")
         
         elif action_ask_user == "3":
             Bet()
 
         elif action_ask_user == "4":
+            check_player_winrate()
+
+        elif action_ask_user == "5":
             player_ask_withdraw_amount = int(input("\nHow much would you like to withdraw? : "))
 
-            user_justin.withdraw_balance(player_ask_withdraw_amount)
+            player.withdraw_balance(player_ask_withdraw_amount)
             
-        elif action_ask_user == "5":
-            print(f"\nThank you for playing {user_justin.name}")
+        elif action_ask_user == "6":
+            print(f"\nThank you for playing {player.name}")
             sys.exit()
 
 if __name__ == "__main__":
