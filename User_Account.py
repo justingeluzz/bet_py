@@ -5,9 +5,11 @@ class BalanceChecker(Exception):
     pass
 
 class User_Account:
-    def __init__(self, AccountName, InitialBalance ):
+    def __init__(self, AccountName, InitialBalance, Games_Won, Games_Played ):
         self.name = AccountName
         self.balance = InitialBalance
+        self.games_won = Games_Won
+        self.games_played = Games_Played
         
     def check_balance(self):
         print(f"\n Your Balance is: ${self.balance}.")
@@ -30,21 +32,27 @@ class User_Account:
         except BalanceChecker as error:
             print(f"\nWithdraw failed: {error}")
 
+    def check_player_win_rate(self):
+        winrate = self.games_won / self.games_played * 100
+        print(f"\nYour Winrate is: {winrate}")
     
-        
+    # def check_games_won(self, won):
+    #     pass
+    
+    # def check_games_played(self, play):
+    #     pass
+
 account_name = input("Hello, What is your name? : ")
 account_balance = int(input(f"\nHello, {account_name}. How much would you like to deposit? : "))
     
-player = User_Account(account_name, account_balance)
-
-
+player = User_Account(account_name, account_balance, 0, 0 )
 
 def Bet():
     bet_status = True
     
     while bet_status:
         bot_choice_bet = random.randint(1,2)
-
+        
         if player.balance <= 0:
 
             print("\n You have no balance please deposit first.")
@@ -56,15 +64,16 @@ def Bet():
 
             
             if player_choice_bet == bot_choice_bet:
-                player_games_won = player_games_won + 1
+                player.games_won = player.games_won + 1
+                player.games_played = player.games_played + 1
                 player.balance = player.balance + player_amount_bet
-                print(f"\nYou Won. Your Balance is now ${player.balance}\n")
+                print(f"\nYou Won. Your Balance is now ${player.balance}. \nYour Score: {player.games_won}. \nGames Played: {player.games_played}")
                 ask_again()
                 
             else:
-                bot_games_won = bot_games_won + 1
+                player.games_played = player.games_played + 1
                 player.balance = player.balance - player_amount_bet
-                print(f"\nYou Lose. Your Balance is now ${player.balance}\n")
+                print(f"\nYou Lose. Your Balance is now ${player.balance}. \nYour Score: {player.games_won}. \nGames Played: {player.games_played} ")
                 ask_again()
 
 def ask_again():
@@ -79,7 +88,6 @@ def ask_again():
             Bet()
     else:
         main()
-
 
 def main():
     while True:
@@ -97,7 +105,7 @@ def main():
             Bet()
 
         elif action_ask_user == "4":
-            check_player_winrate()
+            player.check_player_win_rate()
 
         elif action_ask_user == "5":
             player_ask_withdraw_amount = int(input("\nHow much would you like to withdraw? : "))
