@@ -102,4 +102,5 @@ def main():
             print(f"\nThank you for playing {user_justin.name}")
             sys.exit()
 
-main()
+if __name__ == "__main__":
+    main()
