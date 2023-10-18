@@ -42,18 +42,26 @@ def Bet():
 
     while bet_status:
         bot_choice_bet = random.randint(1,5)
-        player_amount_bet = int(input("Please enter how much you want to bet? : "))
-        player_choice_bet = input("Plese enter your number from 1 - 5 : ")
 
-        if player_choice_bet == bot_choice_bet:
-            user_justin.balance = user_justin.balance + player_amount_bet
-            print(f"\nYou Won. Your Balance is now ${user_justin.balance}\n")
-            ask_again()
-            
+        if user_justin.balance <= 0:
+
+            print("\n You have no balance please deposit first.")
+            main()
+        
         else:
-            user_justin.balance = user_justin.balance - player_amount_bet
-            print(f"\nYou Lose. Your Balance is now ${user_justin.balance}\n")
-            ask_again()
+            player_amount_bet = int(input("Please enter how much you want to bet? : "))
+            player_choice_bet = input("Plese enter your number from 1 - 5 : ")
+
+            
+            if player_choice_bet == bot_choice_bet:
+                user_justin.balance = user_justin.balance + player_amount_bet
+                print(f"\nYou Won. Your Balance is now ${user_justin.balance}\n")
+                ask_again()
+                
+            else:
+                user_justin.balance = user_justin.balance - player_amount_bet
+                print(f"\nYou Lose. Your Balance is now ${user_justin.balance}\n")
+                ask_again()
 
     
 def ask_again():
