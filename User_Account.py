@@ -4,6 +4,9 @@ import sys
 class BalanceChecker(Exception):
     pass
 
+class WinrateChecker(Exception):
+    pass
+
 class User_Account:
     def __init__(self, AccountName, InitialBalance, Games_Won, Games_Played ):
         self.name = AccountName
@@ -33,17 +36,27 @@ class User_Account:
             print(f"\nWithdraw failed: {error}")
 
     def check_player_win_rate(self):
-        winrate = self.games_won / self.games_played * 100
-        print(f"\nYour Winrate is: {winrate}")
+        
+        if self.games_played and self.games_won > 0:
+            
+            winrate = self.games_won / self.games_played * 100
+            print(f"\nYour Winrate is: {winrate}")
+        else:
+            print("\n You haven't palayed games yet.")
+        
     
     # def check_games_won(self, won):
     #     pass
     
     # def check_games_played(self, play):
     #     pass
+account_balance = 0
 
 account_name = input("Hello, What is your name? : ")
-account_balance = int(input(f"\nHello, {account_name}. How much would you like to deposit? : "))
+try:
+    account_balance = int(input(f"\nHello, {account_name}. How much would you like to deposit? : "))
+except ValueError:
+    print("\nPlease Integer only")
     
 player = User_Account(account_name, account_balance, 0, 0 )
 
@@ -91,15 +104,18 @@ def ask_again():
 
 def main():
     while True:
-        action_ask_user = input(f"\n Hello. {account_name}. What action do you want? \n 1. Check Balance \n 2. Deposit \n 3. Bet \n 4. Check Winrate \n 5. Withdraw \n \n")
+        action_ask_user = input(f"\n Hello. {account_name}. What action do you want? \n 1. Check Balance \n 2. Deposit \n 3. Bet \n 4. Check Winrate \n 5. Withdraw \n 6. Exit \n \n")
 
         if action_ask_user == "1":
             player.check_balance()
 
         elif action_ask_user == "2":
-            player_ask_deposit_amount = int(input("\nHow much do you want to deposit? : "))
-            player.balance = player.balance + player_ask_deposit_amount
-            print(f"\nYour balance is now: ${player.balance}.")
+            try:
+                player_ask_deposit_amount = int(input("\nHow much do you want to deposit? : "))
+                player.balance = player.balance + player_ask_deposit_amount
+                print(f"\nYour balance is now: ${player.balance}.")
+            except ValueError:
+                print("\nPlese input a valid integer")
         
         elif action_ask_user == "3":
             Bet()
